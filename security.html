@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security policy &mdash; Atlassian Marketplace apps by Robert Venning</title>
+<meta name="description" content="Partner security policy for Link Health for Confluence and Code Blocks for Confluence: incident handling, vulnerability management and security controls.">
+<style>
+  :root { --ink:#172B4D; --muted:#626F86; --line:#DFE1E6; --blue:#0052CC; --bg:#FFFFFF; --panel:#F4F5F7; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+         color:var(--ink); background:var(--bg); }
+  .wrap { max-width:780px; margin:0 auto; padding:0 24px; }
+  h1 { font-size:2.2rem; margin:64px 0 8px; letter-spacing:-0.01em; }
+  h2 { font-size:1.25rem; margin:44px 0 12px; }
+  .lede { color:var(--muted); margin:0 0 32px; }
+  .panel { background:var(--panel); border-radius:8px; padding:20px 24px; margin:24px 0; }
+  ul, ol { padding-left:22px; } li { margin:6px 0; }
+  table { border-collapse:collapse; width:100%; margin:16px 0; }
+  th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); font-size:15px; vertical-align:top; }
+  th { color:var(--muted); font-weight:600; }
+  footer { margin:72px 0 48px; padding-top:24px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:14px; }
+  a { color:var(--blue); } footer a { color:var(--muted); }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#E6EDF3; --muted:#9BA6B4; --line:#2D333B; --bg:#0D1117; --panel:#161B22; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Security policy</h1>
+  <p class="lede">Partner security policy for the Atlassian Marketplace apps published by Robert Venning:
+     <a href="https://rvenning.github.io/link-health-site/">Link Health for Confluence</a> and
+     <a href="https://rvenning.github.io/code-blocks-site/">Code Blocks for Confluence</a>.
+     Last updated 17 September 2026.</p>
+
+  <div class="panel">
+    <p style="margin:0 0 8px"><strong>Report a security issue:</strong>
+       <a href="mailto:rvenning@proton.me?subject=Security">rvenning@proton.me</a> with
+       &ldquo;Security&rdquo; in the subject line.</p>
+    <p style="margin:0; color:var(--muted)">Please name the app and describe the issue and how to reproduce it.
+       Do not include customer data you are not authorised to share, and please do not disclose the issue
+       publicly until it has been fixed.</p>
+  </div>
+
+  <h2>How the apps are built</h2>
+  <p>Security starts with keeping the attack surface small. Both apps are built on Atlassian Forge and
+     run entirely on Atlassian&rsquo;s infrastructure.</p>
+  <ul>
+    <li><strong>No partner-operated infrastructure.</strong> There are no servers, databases or cloud
+        accounts of ours in the data path. Customer data is not transmitted to or stored on any system we
+        operate.</li>
+    <li><strong>No egress.</strong> Neither app declares external network access, so neither can send data
+        outside Atlassian. Both are eligible for Atlassian&rsquo;s <em>Runs on Atlassian</em> program.</li>
+    <li><strong>Least privilege.</strong> Link Health requests read-only scopes only
+        (<code>read:page:confluence</code>, <code>read:space:confluence</code>,
+        <code>read:attachment:confluence</code>) and runs as the viewing user, so it can only see content that
+        user can already see. Code Blocks requests no scopes at all.</li>
+    <li><strong>No stored customer data.</strong> Neither app keeps its own copy of page content or personal
+        data. Code Blocks content lives in the Confluence page itself.</li>
+  </ul>
+
+  <h2>Security controls</h2>
+  <table>
+    <tr><th>Area</th><th>Control</th></tr>
+    <tr><td>Access control</td>
+        <td>Only the publisher has access to the Atlassian developer and Marketplace accounts that can
+            deploy or change the apps. Two-step verification is enforced on the Marketplace partner account.
+            API tokens are personal, kept outside source code, and rotated if exposure is suspected.</td></tr>
+    <tr><td>Change control</td>
+        <td>Every release is built from version-controlled source, tested against a fixture Confluence site
+            in a development environment, and only then deployed to production with the Forge CLI.
+            Scope or egress changes require Atlassian&rsquo;s explicit administrator consent before they take
+            effect on a customer site.</td></tr>
+    <tr><td>Data protection</td>
+        <td>Data is processed only within Atlassian Forge, which provides encryption in transit and at rest.
+            The apps log no page content or personal data; diagnostic logs record data structure only.</td></tr>
+    <tr><td>Dependencies</td>
+        <td>Third-party packages are kept to Atlassian&rsquo;s own Forge libraries. Dependencies are scanned
+            with <code>npm audit</code> before each release and updated when a relevant vulnerability is
+            published.</td></tr>
+    <tr><td>Monitoring</td>
+        <td>Forge invocation logs and errors are reviewed through the Atlassian developer console, and
+            Atlassian Marketplace security notifications are monitored.</td></tr>
+  </table>
+
+  <h2>Vulnerability management</h2>
+  <ol>
+    <li><strong>Reporting.</strong> Report to the address above. Reports forwarded by Atlassian, including
+        through the Marketplace Security Bug Bounty program or the ecosystem service desk, are handled the
+        same way.</li>
+    <li><strong>Acknowledgement.</strong> Reports are acknowledged within 2 business days.</li>
+    <li><strong>Triage.</strong> Each report is reproduced and rated for severity using CVSS, following
+        Atlassian&rsquo;s severity levels.</li>
+    <li><strong>Remediation.</strong> Fixes are released within the timeframes of Atlassian&rsquo;s
+        <a href="https://developer.atlassian.com/platform/marketplace/security-bugfix-policy/">Marketplace
+        Security Bug Fix Policy</a> for the assigned severity. Critical issues are worked on immediately.</li>
+    <li><strong>Verification and disclosure.</strong> The fix is verified against the original report, the
+        reporter is told when it is released, and customers are informed where action is needed on their side.</li>
+  </ol>
+
+  <h2>Security incidents</h2>
+  <p>A security incident is any event that could affect the confidentiality, integrity or availability of
+     customer data handled by the apps. If one is suspected:</p>
+  <ol>
+    <li><strong>Contain.</strong> Stop the cause, for example by revoking credentials or deploying a fix or
+        rollback. Forge allows an affected version to be replaced across all installations.</li>
+    <li><strong>Assess.</strong> Establish what happened, which customers and data are affected, and when.</li>
+    <li><strong>Notify.</strong> Notify Atlassian and affected customers without undue delay, with what is
+        known, what has been done, and any action they should take.</li>
+    <li><strong>Recover and review.</strong> Confirm the issue is resolved, then record the root cause and the
+        change made to prevent it happening again.</li>
+  </ol>
+
+  <footer>
+    <p><a href="index.html">Support</a> &middot;
+       <a href="https://rvenning.github.io/link-health-site/privacy.html">Link Health privacy policy</a> &middot;
+       <a href="https://rvenning.github.io/code-blocks-site/privacy.html">Code Blocks privacy policy</a></p>
+    <p>Robert Venning &middot; Adelaide, Australia. These are independent apps, not affiliated with or endorsed
+       by Atlassian.</p>
+  </footer>
+</div>
+</body>
+</html>
